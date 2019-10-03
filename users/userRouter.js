@@ -1,7 +1,11 @@
-const express = 'express';
+//imports
+const express = require('express');
+const userDb = require('./userDb.js');
 
+//creating router
 const router = express.Router();
 
+//endpoints
 router.post('/', (req, res) => {
 
 });

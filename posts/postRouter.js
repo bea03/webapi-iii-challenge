@@ -1,7 +1,13 @@
-const express = 'express';
+//imports
+const express = require('express');
+const postDb = require('./postDb.js');
 
+
+//creating the router
 const router = express.Router();
 
+
+//endpoints
 router.get('/', (req, res) => {
 
 });
