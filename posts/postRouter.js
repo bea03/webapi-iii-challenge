@@ -8,8 +8,16 @@ const router = express.Router();
 
 
 //endpoints
-router.get('/', (req, res) => {
 
+//tested and working in insomnia returning all posts
+router.get('/', (req, res) => {
+    postDb.get(req.query)
+        .then(posts => {
+            res.status(200).json(posts);
+        })
+        .catch(err => {
+            res.status(500).json({ error: "The posts information could not be retrieved." });
+        });
 });
 
 router.get('/:id', (req, res) => {
