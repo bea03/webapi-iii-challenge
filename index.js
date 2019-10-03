@@ -28,8 +28,8 @@ server.use(logger);
 server.use(helmet());
 
 //server to use routes
-server.use('/api/posts', postRouter);
-server.use('/api/users', userRouter);
+server.use('/api/posts', logger, postRouter);
+server.use('/api/users', logger, userRouter);
 
 server.get('/', (req, res) => {
     res.send(`
