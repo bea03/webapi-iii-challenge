@@ -35,8 +35,20 @@ router.get('/', (req, res) => {
         });
 });
 
+//working
 router.get('/:id', (req, res) => {
-
+    const id = req.params.id;
+    userDb.getById(id)
+        .then(user => {
+            if(typeof user === "undefined"){
+                res.status(400).json({ message: "invalid user id" });
+            } else {
+                res.status(200).json(user);
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: "User could not be retrieved" });
+        });
 });
 
 router.get('/:id/posts', (req, res) => {
@@ -58,13 +70,16 @@ function validateUserId(req, res, next) {
 
     userDb.getById(id)
         .then(user => {
-            if(typeof id === "undefined"){
+            if(typeof user === "undefined"){
                 res.status(400).json({ message: "invalid user id" });
             } else {
                 req.user = res.body;
                 next();
             }
         })
+        .catch(err => {
+            res.status(500).json({ error: "User could not be retrieved" });
+        });
   };
 //working
 function validateUser(req, res, next) { 
@@ -77,31 +92,5 @@ function validateUser(req, res, next) {
         next();
     }
 };
-
-function validatePost(req, res, next) {
-    const postData = req.body;
-    if(!postData.text) {
-        res.status(400).json({ message: "missing required text field" });
-    } else if (!req.body){
-        res.status(400).json({ message: "missing post data" });
-    }else {
-        next();
-    }
-};
-
-function validatePostID(req, res, next) {
-    const id = req.params.id;
-    postDb.getById(id)
-        .then(post => {
-            if(typeof post === "undefined") {
-                res.status(404).json({ message: "The post with the specified ID does not exist." });
-             } else {
-                 next();
-             }
-        })
-        .catch(err => {
-            res.status(500).json({ error: "Couldn't retrieve Post by ID"});
-        }); 
-}
 
 module.exports = router;
