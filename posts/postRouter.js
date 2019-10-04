@@ -98,4 +98,19 @@ function validatePost(req, res, next) {
     }
 };
 
+function validatePostID(req, res, next) {
+    const id = req.params.id;
+    postDb.getById(id)
+        .then(post => {
+            if(typeof post === "undefined") {
+                res.status(404).json({ message: "The post with the specified ID does not exist." });
+             } else {
+                 next();
+             }
+        })
+        .catch(err => {
+            res.status(500).json({ error: "Couldn't retrieve Post by ID"});
+        }); 
+}
+
 module.exports = router;
